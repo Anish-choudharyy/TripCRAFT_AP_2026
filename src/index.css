@@ -1,0 +1,42 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --bg-main: #111419;
+    --bg-dark: #0b0d10;
+    --accent-orange: #E05A2B;
+    --border-subtle: rgba(255, 255, 255, 0.12);
+    --text-muted: #8E95A2;
+  }
+
+  body {
+    background-color: var(--bg-main);
+    color: #E2E8F0;
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+  }
+
+  /* Bold Condensed Headline Styling matching Image 1 */
+  h1, h2, h3, .font-condensed {
+    font-family: 'Oswald', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    font-weight: 700;
+  }
+}
+
+/* Subtle dark gradient overlay for cinematic photography */
+.hero-overlay {
+  background: linear-gradient(180deg, rgba(17, 20, 25, 0.4) 0%, rgba(17, 20, 25, 0.1) 40%, rgba(17, 20, 25, 0.8) 85%, #111419 100%);
+}
+
+.card-gradient {
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 40%, rgba(11, 13, 16, 0.85) 100%);
+}
+
+/* Smooth transitions */
+.transition-smooth {
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
