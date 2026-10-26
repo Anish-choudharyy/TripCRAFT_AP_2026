@@ -1,24 +1,38 @@
 @import "tailwindcss";
 
+@theme {
+  --color-main: #0B0F14;
+  --color-surface: #131B24;
+  --color-elevated: #202B38;
+  --color-accent: #73DACA;
+  --color-accent-hover: #9AEBDD;
+  --color-text-primary: #E7EDF5;
+  --color-text-secondary: #94A3B8;
+  --color-border-subtle: #2A3644;
+}
+
 @layer base {
   :root {
-    --bg-main: #111419;
-    --bg-dark: #0b0d10;
-    --accent-orange: #E05A2B;
-    --border-subtle: rgba(255, 255, 255, 0.12);
-    --text-muted: #8E95A2;
+    --bg-main: #0B0F14;
+    --bg-surface: #131B24;
+    --bg-elevated: #202B38;
+    --accent-teal: #73DACA;
+    --accent-hover: #9AEBDD;
+    --text-primary: #E7EDF5;
+    --text-secondary: #94A3B8;
+    --border-subtle: #2A3644;
   }
 
   body {
     background-color: var(--bg-main);
-    color: #E2E8F0;
+    color: var(--text-primary);
     font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
     margin: 0;
     padding: 0;
     overflow-x: hidden;
   }
 
-  /* Bold Condensed Headline Styling matching Image 1 */
+  /* Bold Condensed Headline Styling */
   h1, h2, h3, .font-condensed {
     font-family: 'Oswald', sans-serif;
     text-transform: uppercase;
@@ -27,16 +41,34 @@
   }
 }
 
-/* Subtle dark gradient overlay for cinematic photography */
+/* Custom restrained scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0B0F14;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #202B38;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #2A3644;
+}
+
+/* Subtle clean overlays */
 .hero-overlay {
-  background: linear-gradient(180deg, rgba(17, 20, 25, 0.4) 0%, rgba(17, 20, 25, 0.1) 40%, rgba(17, 20, 25, 0.8) 85%, #111419 100%);
+  background: linear-gradient(180deg, rgba(11, 15, 20, 0.5) 0%, rgba(11, 15, 20, 0.1) 40%, rgba(11, 15, 20, 0.85) 85%, #0B0F14 100%);
 }
 
 .card-gradient {
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 40%, rgba(11, 13, 16, 0.85) 100%);
+  background: linear-gradient(180deg, rgba(11, 15, 20, 0) 40%, rgba(11, 15, 20, 0.95) 100%);
 }
 
 /* Smooth transitions */
 .transition-smooth {
-  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }

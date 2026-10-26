@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Compass, ArrowRight, Check, Globe } from 'lucide-react';
+import { Compass, ArrowRight, Check } from 'lucide-react';
 
-export default function Footer({ onOpenPlanModal }) {
+export default function Footer({ onOpenPlanModal, onNavigate }) {
   const [newsletterEmail, setNewsletterEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
 
@@ -14,30 +14,33 @@ export default function Footer({ onOpenPlanModal }) {
   };
 
   return (
-    <footer id="about" className="bg-[#07080A] border-t border-white/10 pt-20 pb-12 text-zinc-400">
+    <footer id="about" className="bg-[#0B0F14] border-t border-[#2A3644] pt-20 pb-12 text-[#94A3B8]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Top Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 pb-16 border-b border-white/10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 pb-16 border-b border-[#2A3644]">
           {/* Brand Info (5 cols) */}
           <div className="lg:col-span-5 space-y-6">
-            <a href="#" className="flex items-center gap-2.5">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#E05A2B]" />
-              <span className="font-condensed text-xl font-bold tracking-[0.15em] text-white">
+            <button
+              onClick={() => onNavigate && onNavigate('home')}
+              className="flex items-center gap-2.5 cursor-pointer text-left"
+            >
+              <span className="w-2.5 h-2.5 rounded-full bg-[#73DACA]" />
+              <span className="font-condensed text-xl font-bold tracking-[0.15em] text-[#E7EDF5]">
                 TRIPCRAFT
               </span>
-            </a>
+            </button>
 
-            <p className="text-zinc-400 text-xs sm:text-[13px] font-light leading-relaxed max-w-sm">
+            <p className="text-[#94A3B8] text-xs sm:text-[13px] font-light leading-relaxed max-w-sm">
               TripCraft curates private, slow-paced journeys across the Indian subcontinent. Exploring wild landscapes, sacred architecture, and remote routes.
             </p>
 
-            <div className="flex items-center gap-4 text-zinc-400">
+            <div className="flex items-center gap-4 text-[#94A3B8]">
               {/* Instagram SVG */}
               <a
                 href="https://instagram.com"
                 target="_blank"
                 rel="noreferrer"
-                className="w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:text-white hover:border-[#E05A2B] hover:bg-[#E05A2B]/10 transition-colors"
+                className="w-9 h-9 rounded-full bg-[#131B24] border border-[#2A3644] flex items-center justify-center hover:text-[#73DACA] hover:border-[#73DACA]/50 transition-colors"
                 aria-label="Instagram"
               >
                 <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
@@ -49,7 +52,7 @@ export default function Footer({ onOpenPlanModal }) {
                 href="https://twitter.com"
                 target="_blank"
                 rel="noreferrer"
-                className="w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:text-white hover:border-[#E05A2B] hover:bg-[#E05A2B]/10 transition-colors"
+                className="w-9 h-9 rounded-full bg-[#131B24] border border-[#2A3644] flex items-center justify-center hover:text-[#73DACA] hover:border-[#73DACA]/50 transition-colors"
                 aria-label="Twitter / X"
               >
                 <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
@@ -61,7 +64,7 @@ export default function Footer({ onOpenPlanModal }) {
                 href="https://youtube.com"
                 target="_blank"
                 rel="noreferrer"
-                className="w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:text-white hover:border-[#E05A2B] hover:bg-[#E05A2B]/10 transition-colors"
+                className="w-9 h-9 rounded-full bg-[#131B24] border border-[#2A3644] flex items-center justify-center hover:text-[#73DACA] hover:border-[#73DACA]/50 transition-colors"
                 aria-label="YouTube"
               >
                 <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
@@ -73,45 +76,45 @@ export default function Footer({ onOpenPlanModal }) {
 
           {/* Quick Links (2 cols) */}
           <div className="lg:col-span-2 space-y-4">
-            <h4 className="text-xs uppercase tracking-[0.25em] text-white font-semibold">
+            <h4 className="text-xs uppercase tracking-[0.25em] text-[#E7EDF5] font-semibold">
               Destinations
             </h4>
             <ul className="space-y-2.5 text-xs tracking-wider">
-              <li><a href="#explore" className="hover:text-white transition-colors">Ladakh & Zanskar</a></li>
-              <li><a href="#explore" className="hover:text-white transition-colors">Kashmir Valleys</a></li>
-              <li><a href="#explore" className="hover:text-white transition-colors">Thar & Rajasthan</a></li>
-              <li><a href="#explore" className="hover:text-white transition-colors">Meghalaya & Northeast</a></li>
-              <li><a href="#explore" className="hover:text-white transition-colors">Kerala Backwaters</a></li>
-              <li><a href="#explore" className="hover:text-white transition-colors">Himachal & Spiti</a></li>
+              <li><button onClick={() => onNavigate && onNavigate('explore')} className="hover:text-[#E7EDF5] transition-colors cursor-pointer text-left">All Destinations</button></li>
+              <li><button onClick={() => onNavigate && onNavigate('explore')} className="hover:text-[#E7EDF5] transition-colors cursor-pointer text-left">Ladakh & Zanskar</button></li>
+              <li><button onClick={() => onNavigate && onNavigate('explore')} className="hover:text-[#E7EDF5] transition-colors cursor-pointer text-left">Kashmir Valleys</button></li>
+              <li><button onClick={() => onNavigate && onNavigate('explore')} className="hover:text-[#E7EDF5] transition-colors cursor-pointer text-left">Rajasthan Citadels</button></li>
+              <li><button onClick={() => onNavigate && onNavigate('explore')} className="hover:text-[#E7EDF5] transition-colors cursor-pointer text-left">Kerala Backwaters</button></li>
+              <li><button onClick={() => onNavigate && onNavigate('explore')} className="hover:text-[#E7EDF5] transition-colors cursor-pointer text-left">Himachal & Spiti</button></li>
             </ul>
           </div>
 
           {/* Experiences (2 cols) */}
           <div className="lg:col-span-2 space-y-4">
-            <h4 className="text-xs uppercase tracking-[0.25em] text-white font-semibold">
+            <h4 className="text-xs uppercase tracking-[0.25em] text-[#E7EDF5] font-semibold">
               Journeys
             </h4>
             <ul className="space-y-2.5 text-xs tracking-wider">
-              <li><a href="#inspiration" className="hover:text-white transition-colors">Celestial Camps</a></li>
-              <li><a href="#explore" className="hover:text-white transition-colors">Palace Odysseys</a></li>
-              <li><a href="#explore" className="hover:text-white transition-colors">Himalayan Treks</a></li>
-              <li><a href="#explore" className="hover:text-white transition-colors">Ayurvedic Sanctuaries</a></li>
-              <li><button onClick={onOpenPlanModal} className="text-[#E05A2B] hover:text-[#F26A3B] transition-colors cursor-pointer text-left">Custom Route Request</button></li>
+              <li><a href="#inspiration" className="hover:text-[#E7EDF5] transition-colors">Celestial Camps</a></li>
+              <li><button onClick={() => onNavigate && onNavigate('explore')} className="hover:text-[#E7EDF5] transition-colors cursor-pointer text-left">Palace Odysseys</button></li>
+              <li><button onClick={() => onNavigate && onNavigate('explore')} className="hover:text-[#E7EDF5] transition-colors cursor-pointer text-left">Himalayan Treks</button></li>
+              <li><button onClick={() => onNavigate && onNavigate('explore')} className="hover:text-[#E7EDF5] transition-colors cursor-pointer text-left">Ayurvedic Sanctuaries</button></li>
+              <li><button onClick={onOpenPlanModal} className="text-[#73DACA] hover:text-[#9AEBDD] transition-colors cursor-pointer text-left">Custom Route Request</button></li>
             </ul>
           </div>
 
           {/* Newsletter (3 cols) */}
           <div className="lg:col-span-3 space-y-4">
-            <h4 className="text-xs uppercase tracking-[0.25em] text-white font-semibold">
+            <h4 className="text-xs uppercase tracking-[0.25em] text-[#E7EDF5] font-semibold">
               The Dispatch
             </h4>
-            <p className="text-xs text-zinc-400 font-light leading-relaxed">
+            <p className="text-xs text-[#94A3B8] font-light leading-relaxed">
               Curated field notes, seasonal road openings, and unlisted mountain lodges sent monthly.
             </p>
 
             {subscribed ? (
-              <div className="p-3 rounded bg-[#E05A2B]/15 border border-[#E05A2B]/40 text-xs text-white flex items-center gap-2">
-                <Check className="w-4 h-4 text-[#E05A2B]" />
+              <div className="p-3 rounded bg-[#131B24] border border-[#73DACA]/40 text-xs text-[#E7EDF5] flex items-center gap-2">
+                <Check className="w-4 h-4 text-[#73DACA]" />
                 <span>You are on the dispatch list.</span>
               </div>
             ) : (
@@ -123,17 +126,17 @@ export default function Footer({ onOpenPlanModal }) {
                     placeholder="Enter email address"
                     value={newsletterEmail}
                     onChange={(e) => setNewsletterEmail(e.target.value)}
-                    className="w-full bg-[#161A20] border border-white/15 px-3 py-2 text-xs text-white placeholder-zinc-500 rounded-l focus:outline-none focus:border-[#E05A2B]"
+                    className="w-full bg-[#202B38] border border-[#2A3644] px-3 py-2 text-xs text-[#E7EDF5] placeholder-[#94A3B8]/60 rounded-l focus:outline-none focus:border-[#73DACA]"
                   />
                   <button
                     type="submit"
-                    className="px-3.5 bg-[#E05A2B] text-white rounded-r hover:bg-[#F26A3B] transition-colors flex items-center justify-center cursor-pointer"
+                    className="px-3.5 bg-[#73DACA] text-[#0B0F14] rounded-r hover:bg-[#9AEBDD] transition-colors flex items-center justify-center cursor-pointer"
                     aria-label="Subscribe"
                   >
                     <ArrowRight className="w-4 h-4" />
                   </button>
                 </div>
-                <div className="text-[10px] text-zinc-600 font-mono">
+                <div className="text-[10px] text-[#94A3B8]/70 font-mono">
                   ZERO SPAM • UNSUBSCRIBE ANYTIME
                 </div>
               </form>
@@ -142,15 +145,15 @@ export default function Footer({ onOpenPlanModal }) {
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-zinc-500 gap-4">
+        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-[#94A3B8]/80 gap-4">
           <div className="flex items-center gap-6">
             <span>© 2026 TripCraft Atelier India. All rights reserved.</span>
           </div>
 
           <div className="flex items-center gap-6 text-[11px] uppercase tracking-wider">
-            <a href="#" className="hover:text-zinc-300 transition-colors">Privacy Protocol</a>
-            <a href="#" className="hover:text-zinc-300 transition-colors">Terms of Journey</a>
-            <a href="#" className="hover:text-zinc-300 transition-colors">Editorial Journal</a>
+            <a href="#" className="hover:text-[#E7EDF5] transition-colors">Privacy Protocol</a>
+            <a href="#" className="hover:text-[#E7EDF5] transition-colors">Terms of Journey</a>
+            <a href="#" className="hover:text-[#E7EDF5] transition-colors">Editorial Journal</a>
           </div>
         </div>
       </div>
