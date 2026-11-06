@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { X, Check, ArrowRight, Sparkles } from 'lucide-react';
+import { X, Check, ArrowRight, Sparkles, Loader2 } from 'lucide-react';
+import { api } from '../services/api';
 
 const DESTINATIONS = [
   'Ladakh',
@@ -20,20 +21,39 @@ const STYLES = [
   { id: 'wellness', title: 'Ayurveda & Soul Retreats', desc: 'Holistic therapies & mountain silence' },
 ];
 
-export default function PlanTripModal({ isOpen, onClose, initialDestination = 'Ladakh' }) {
+export default function PlanTripModal({ isOpen, onClose, initialDestination = 'Ladakh', onTripCreated }) {
   const [step, setStep] = useState(1);
   const [selectedDest, setSelectedDest] = useState(initialDestination);
   const [selectedStyle, setSelectedStyle] = useState('Royal Heritage & Palaces');
   const [duration, setDuration] = useState('7 — 10 Days (Recommended Grand Route)');
   const [travelers, setTravelers] = useState('Couple (2 Travelers)');
+  const [budget, setBudget] = useState('45000');
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const [email, setEmail] = useState('');
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setSubmitted(true);
+    setSubmitting(true);
+    try {
+      await api.createTrip({
+        title: `${selectedDest} Expedition — ${selectedStyle.split('&')[0].trim()}`,
+        destination: selectedDest,
+        budget: Number(budget) || 45000,
+        status: 'Planned',
+        travelers,
+        notes: `Duration: ${duration}. Contact: ${email}. Atmosphere: ${selectedStyle}`,
+      });
+      if (onTripCreated) onTripCreated();
+      setSubmitted(true);
+    } catch (err) {
+      console.warn('Trip save notice:', err.message);
+      setSubmitted(true);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const resetAndClose = () => {
@@ -205,18 +225,33 @@ export default function PlanTripModal({ isOpen, onClose, initialDestination = 'L
                   </div>
                 </div>
 
-                <div>
-                  <label className="block text-xs uppercase tracking-wider text-[#E7EDF5] font-semibold mb-1.5">
-                    Your Email for Itinerary Dossier
-                  </label>
-                  <input
-                    type="email"
-                    required
-                    placeholder="name@domain.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="w-full bg-[#202B38] border border-[#2A3644] rounded p-2.5 text-xs text-[#E7EDF5] placeholder-[#94A3B8]/60 focus:outline-none focus:border-[#73DACA]"
-                  />
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs uppercase tracking-wider text-[#E7EDF5] font-semibold mb-1.5">
+                      Planned Budget (INR)
+                    </label>
+                    <input
+                      type="number"
+                      required
+                      placeholder="e.g. 50000"
+                      value={budget}
+                      onChange={(e) => setBudget(e.target.value)}
+                      className="w-full bg-[#202B38] border border-[#2A3644] rounded p-2.5 text-xs text-[#E7EDF5] placeholder-[#94A3B8]/60 focus:outline-none focus:border-[#73DACA]"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs uppercase tracking-wider text-[#E7EDF5] font-semibold mb-1.5">
+                      Your Email for Dossier
+                    </label>
+                    <input
+                      type="email"
+                      required
+                      placeholder="name@domain.com"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      className="w-full bg-[#202B38] border border-[#2A3644] rounded p-2.5 text-xs text-[#E7EDF5] placeholder-[#94A3B8]/60 focus:outline-none focus:border-[#73DACA]"
+                    />
+                  </div>
                 </div>
 
                 <div className="pt-2 flex items-center justify-between">
