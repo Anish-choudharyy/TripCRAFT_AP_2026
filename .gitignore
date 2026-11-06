@@ -26,3 +26,8 @@ dist-ssr
 .env
 .env.*
 !.env.example
+
+# Local Presentation & Viva Preparation (Never pushed to remote)
+Presentation Prep/
+[Pp]resentation [Pp]rep/
+PRESENTATION_GUIDE.md
