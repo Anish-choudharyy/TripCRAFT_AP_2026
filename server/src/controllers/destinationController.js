@@ -30,7 +30,6 @@ export async function getAllDestinations(req, res) {
       return res.json({ success: true, count: result.rows.length, data: result.rows });
     }
 
-    // In-Memory store filtering
     let items = [...inMemoryStore.destinations];
 
     if (category && category.toLowerCase() !== 'all') {

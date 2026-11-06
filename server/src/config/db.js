@@ -14,7 +14,6 @@ const { Pool } = pg;
 let pool = null;
 let usePostgres = false;
 
-// In-Memory store fallback for immediate out-of-the-box operation if PostgreSQL isn't running
 export const inMemoryStore = {
   destinations: [],
   trips: [],
@@ -32,19 +31,19 @@ export const inMemoryStore = {
 
 const connectionConfig = process.env.DATABASE_URL
   ? {
-      connectionString: process.env.DATABASE_URL,
-      ssl: process.env.PGSSL === 'true' ? { rejectUnauthorized: false } : false,
-      connectionTimeoutMillis: 3000,
-    }
+    connectionString: process.env.DATABASE_URL,
+    ssl: process.env.PGSSL === 'true' ? { rejectUnauthorized: false } : false,
+    connectionTimeoutMillis: 3000,
+  }
   : {
-      host: process.env.PGHOST || 'localhost',
-      port: parseInt(process.env.PGPORT || '5432', 10),
-      user: process.env.PGUSER || 'postgres',
-      password: process.env.PGPASSWORD || 'postgres',
-      database: process.env.PGDATABASE || 'tripcraft',
-      ssl: process.env.PGSSL === 'true' ? { rejectUnauthorized: false } : false,
-      connectionTimeoutMillis: 3000,
-    };
+    host: process.env.PGHOST || 'localhost',
+    port: parseInt(process.env.PGPORT || '5432', 10),
+    user: process.env.PGUSER || 'postgres',
+    password: process.env.PGPASSWORD || 'postgres',
+    database: process.env.PGDATABASE || 'tripcraft',
+    ssl: process.env.PGSSL === 'true' ? { rejectUnauthorized: false } : false,
+    connectionTimeoutMillis: 3000,
+  };
 
 export async function initDatabase() {
   try {
@@ -53,7 +52,6 @@ export async function initDatabase() {
     usePostgres = true;
     console.log('✅ [Database] Successfully connected to PostgreSQL database.');
 
-    // Execute schema.sql to ensure all tables exist
     const schemaPath = path.join(__dirname, '../db/schema.sql');
     if (fs.existsSync(schemaPath)) {
       const schemaSql = fs.readFileSync(schemaPath, 'utf8');
@@ -81,7 +79,6 @@ export async function query(text, params = []) {
   return executeInMemoryQuery(text, params);
 }
 
-// Fallback query executor for standard SQL operations on in-memory store
 function executeInMemoryQuery(sql, params) {
   const normalized = sql.trim().toUpperCase();
 

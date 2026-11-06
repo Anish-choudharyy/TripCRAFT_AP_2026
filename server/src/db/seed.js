@@ -208,7 +208,6 @@ export const INITIAL_TRIPS = [
 ];
 
 export const INITIAL_ITINERARIES = [
-  // Trip 1 (Ladakh)
   {
     trip_id: 1,
     day_number: 1,
@@ -253,7 +252,6 @@ export const INITIAL_ITINERARIES = [
     cost: 7800,
     notes: 'Sunset photography at Pangong lake and night stargazing.',
   },
-  // Trip 2 (Rajasthan)
   {
     trip_id: 2,
     day_number: 1,
@@ -290,7 +288,6 @@ export const INITIAL_ITINERARIES = [
 ];
 
 export const INITIAL_EXPENSES = [
-  // Trip 1 Expenses (Ladakh)
   {
     trip_id: 1,
     title: 'Toyota Innova Crysta Overland 4x4 Booking',
@@ -327,7 +324,6 @@ export const INITIAL_EXPENSES = [
     payment_method: 'Cash',
     notes: 'Thukpa, Momos, and butter tea.',
   },
-  // Trip 2 Expenses (Rajasthan)
   {
     trip_id: 2,
     title: 'Samode Haveli Jaipur Palace Stay',
@@ -371,7 +367,6 @@ export async function seedDatabase() {
 
   if (isPostgresActive()) {
     try {
-      // Check if destinations already seeded
       const checkDest = await query('SELECT COUNT(*) FROM destinations');
       if (parseInt(checkDest.rows[0].count, 10) === 0) {
         for (const d of INITIAL_DESTINATIONS) {
@@ -396,7 +391,6 @@ export async function seedDatabase() {
         console.log(`✅ [Database Seed] Seeded ${INITIAL_DESTINATIONS.length} Indian destinations into PostgreSQL.`);
       }
 
-      // Check if trips seeded
       const checkTrips = await query('SELECT COUNT(*) FROM trips');
       if (parseInt(checkTrips.rows[0].count, 10) === 0) {
         for (const t of INITIAL_TRIPS) {
@@ -430,7 +424,6 @@ export async function seedDatabase() {
     }
   }
 
-  // Populate In-Memory fallback store
   if (inMemoryStore.destinations.length === 0) {
     INITIAL_DESTINATIONS.forEach((d, idx) => {
       inMemoryStore.destinations.push({
@@ -473,8 +466,6 @@ export async function seedDatabase() {
     console.log('✅ [Database Seed] Memory fallback store initialized with destinations, trips, and expenses.');
   }
 }
-
-// Standalone execution support: node src/db/seed.js
 if (process.argv[1] && process.argv[1].endsWith('seed.js')) {
   (async () => {
     await initDatabase();

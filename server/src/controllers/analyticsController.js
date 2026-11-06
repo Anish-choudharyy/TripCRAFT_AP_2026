@@ -18,7 +18,6 @@ export async function getGlobalDashboardAnalytics(req, res) {
       expenses = inMemoryStore.expenses;
       destinations = inMemoryStore.destinations;
     }
-
     const totalTrips = trips.length;
     const plannedTrips = trips.filter((t) => t.status === 'Planned').length;
     const ongoingTrips = trips.filter((t) => t.status === 'Ongoing').length;
@@ -27,8 +26,6 @@ export async function getGlobalDashboardAnalytics(req, res) {
     const totalBudget = trips.reduce((sum, t) => sum + Number(t.budget || 0), 0);
     const totalExpenses = expenses.reduce((sum, e) => sum + Number(e.amount || 0), 0);
     const remainingBudget = totalBudget - totalExpenses;
-
-    // Category breakdown
     const categoryTotals = {
       Transport: 0,
       Accommodation: 0,
@@ -47,8 +44,6 @@ export async function getGlobalDashboardAnalytics(req, res) {
       amount: value,
       percentage: totalExpenses > 0 ? Number(((value / totalExpenses) * 100).toFixed(1)) : 0,
     }));
-
-    // Trip by trip budget comparison
     const tripComparisons = trips.map((t) => {
       const tripExp = expenses.filter((e) => e.trip_id === t.id);
       const spent = tripExp.reduce((sum, e) => sum + Number(e.amount || 0), 0);

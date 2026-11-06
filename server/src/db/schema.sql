@@ -1,7 +1,5 @@
 -- TripCraft PostgreSQL Database Schema
 -- Advanced Programming (AP) & Data Engineering (DE) 2026
-
--- 1. Destinations Table (Curated Indian travel locations)
 CREATE TABLE IF NOT EXISTS destinations (
     id SERIAL PRIMARY KEY,
     slug VARCHAR(100) UNIQUE NOT NULL,
@@ -17,11 +15,9 @@ CREATE TABLE IF NOT EXISTS destinations (
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
--- Index for fast category and search queries
 CREATE INDEX IF NOT EXISTS idx_destinations_category ON destinations(category);
 CREATE INDEX IF NOT EXISTS idx_destinations_name ON destinations(name);
 
--- 2. Trips Table
 CREATE TABLE IF NOT EXISTS trips (
     id SERIAL PRIMARY KEY,
     title VARCHAR(200) NOT NULL,
@@ -41,7 +37,6 @@ CREATE TABLE IF NOT EXISTS trips (
 CREATE INDEX IF NOT EXISTS idx_trips_destination ON trips(destination);
 CREATE INDEX IF NOT EXISTS idx_trips_status ON trips(status);
 
--- 3. Daily Itinerary Items Table
 CREATE TABLE IF NOT EXISTS itinerary_items (
     id SERIAL PRIMARY KEY,
     trip_id INTEGER NOT NULL REFERENCES trips(id) ON DELETE CASCADE,
@@ -59,7 +54,6 @@ CREATE TABLE IF NOT EXISTS itinerary_items (
 
 CREATE INDEX IF NOT EXISTS idx_itinerary_trip_day ON itinerary_items(trip_id, day_number);
 
--- 4. Travel Expenses Table
 CREATE TABLE IF NOT EXISTS expenses (
     id SERIAL PRIMARY KEY,
     trip_id INTEGER NOT NULL REFERENCES trips(id) ON DELETE CASCADE,
@@ -75,7 +69,6 @@ CREATE TABLE IF NOT EXISTS expenses (
 CREATE INDEX IF NOT EXISTS idx_expenses_trip_id ON expenses(trip_id);
 CREATE INDEX IF NOT EXISTS idx_expenses_category ON expenses(category);
 
--- 5. Data Engineering: Imported Datasets & ETL Audit Log
 CREATE TABLE IF NOT EXISTS imported_datasets (
     id SERIAL PRIMARY KEY,
     filename VARCHAR(255) NOT NULL,
