@@ -29,16 +29,20 @@ export default function Navbar({ currentView = 'home', onNavigate, onOpenPlanMod
 
   const navLinks = [
     { label: 'EXPLORE', view: 'explore' },
-    { label: 'ABOUT', href: '#about' },
+    { label: 'MY TRIPS', view: 'trips' },
+    { label: 'ANALYTICS', view: 'analytics' },
+    { label: 'DATA HUB', view: 'data-hub' },
     { label: 'TOURS', href: '#tours' },
-    { label: 'STORIES', href: '#inspiration' },
-    { label: 'CONTACT', href: '#about' },
   ];
 
+  const isHome = currentView === 'home';
+
   return (
-    <header className="absolute top-0 left-0 right-0 z-40 bg-transparent">
+    <header className={`fixed top-0 left-0 right-0 z-40 transition-colors duration-200 ${
+      isHome ? 'bg-gradient-to-b from-[#0B0F14]/90 to-transparent' : 'bg-[#0B0F14]/95 backdrop-blur-md border-b border-[#2A3644]'
+    }`}>
       <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-14">
-        <div className="flex items-center justify-between h-16 border-b border-[#2A3644]">
+        <div className="flex items-center justify-between h-16 border-b border-[#2A3644]/40">
           {/* Logo with restrained teal dot indicator */}
           <button
             onClick={() => onNavigate && onNavigate('home')}
@@ -51,20 +55,20 @@ export default function Navbar({ currentView = 'home', onNavigate, onOpenPlanMod
           </button>
 
           {/* Minimal Desktop Nav Links */}
-          <nav className="hidden md:flex items-center gap-8 lg:gap-11">
+          <nav className="hidden md:flex items-center gap-7 lg:gap-10">
             {navLinks.map((link) => {
-              const isExploreActive = link.view === 'explore' && currentView === 'explore';
+              const isActive = link.view && currentView === link.view;
               return (
                 <a
                   key={link.label}
                   href={link.href || '#'}
                   onClick={(e) => handleLinkClick(e, link)}
                   className={`relative text-[11px] font-medium tracking-[0.18em] transition-colors duration-200 py-1 ${
-                    isExploreActive ? 'text-[#E7EDF5]' : 'text-[#94A3B8] hover:text-[#E7EDF5]'
+                    isActive ? 'text-[#73DACA]' : 'text-[#94A3B8] hover:text-[#E7EDF5]'
                   }`}
                 >
                   <span>{link.label}</span>
-                  {isExploreActive && (
+                  {isActive && (
                     <span className="absolute bottom-0 left-0 right-0 h-[1.5px] bg-[#73DACA]" />
                   )}
                 </a>
@@ -73,7 +77,7 @@ export default function Navbar({ currentView = 'home', onNavigate, onOpenPlanMod
           </nav>
 
           {/* Right Action: Minimal Search Icon & Plan Trigger */}
-          <div className="flex items-center gap-5">
+          <div className="flex items-center gap-4 sm:gap-5">
             <button
               onClick={() => onNavigate && onNavigate('explore')}
               className={`transition-colors p-1 cursor-pointer ${
@@ -83,6 +87,13 @@ export default function Navbar({ currentView = 'home', onNavigate, onOpenPlanMod
               title="Explore and search destinations"
             >
               <Search className="w-4 h-4" />
+            </button>
+
+            <button
+              onClick={onOpenPlanModal}
+              className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-sm bg-[#73DACA]/10 border border-[#73DACA]/30 text-[#73DACA] hover:bg-[#73DACA] hover:text-[#0B0F14] transition-all text-[11px] font-semibold tracking-wider uppercase cursor-pointer"
+            >
+              <span>+ Plan Trip</span>
             </button>
 
             {/* Mobile hamburger */}

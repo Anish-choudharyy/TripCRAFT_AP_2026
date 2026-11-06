@@ -5,6 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "server": "node server/src/server.js",
+    "server:dev": "node --watch server/src/server.js",
     "build": "vite build",
     "lint": "oxlint",
     "preview": "vite preview"
@@ -13,7 +15,8 @@
     "@tailwindcss/vite": "^4.3.3",
     "lucide-react": "^1.61.0",
     "react": "^19.3.1",
-    "react-dom": "^19.3.1"
+    "react-dom": "^19.3.1",
+    "recharts": "^3.10.1"
   },
   "devDependencies": {
     "@types/react": "^19.3.0",
