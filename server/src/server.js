@@ -17,13 +17,11 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5001;
 
-// Middlewares
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan('dev'));
 
-// Healthcheck & System Info Endpoint
 app.get('/api/health', (req, res) => {
   res.json({
     status: 'online',
@@ -35,7 +33,6 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// API Routes
 app.use('/api/destinations', destinationRoutes);
 app.use('/api/trips', tripRoutes);
 app.use('/api/itinerary', itineraryRoutes);
@@ -43,18 +40,15 @@ app.use('/api/expenses', expenseRoutes);
 app.use('/api/data', dataRoutes);
 app.use('/api/analytics', analyticsRoutes);
 
-// 404 handler
 app.use((req, res) => {
   res.status(404).json({ success: false, message: `Route not found: ${req.method} ${req.originalUrl}` });
 });
 
-// Global error handler
 app.use((err, req, res, next) => {
   console.error('Unhandled Server Error:', err);
   res.status(500).json({ success: false, error: err.message || 'Internal Server Error' });
 });
 
-// Start Server & Initialize Database
 async function startServer() {
   await initDatabase();
   await seedDatabase();

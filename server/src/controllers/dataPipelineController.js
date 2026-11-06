@@ -2,20 +2,16 @@ import fs from 'fs';
 import csvParser from 'csv-parser';
 import { query, isPostgresActive, inMemoryStore } from '../config/db.js';
 
-// ETL Validation & Normalization Rules
 const VALID_CATEGORIES = ['Mountains', 'Beaches', 'Nature', 'Adventure', 'Culture'];
 
 function cleanRecord(raw) {
   const issues = [];
-
-  // Name & State sanitization
   const name = (raw.name || raw.Destination || raw.destination || '').trim();
   const state = (raw.state || raw.State || raw.Region || '').trim();
 
   if (!name) issues.push('Missing destination name');
   if (!state) issues.push('Missing state/region');
 
-  // Category normalization
   let rawCategory = (raw.category || raw.Category || 'Culture').trim();
   let matchedCat = VALID_CATEGORIES.find(
     (c) => c.toLowerCase() === rawCategory.toLowerCase()
@@ -25,17 +21,13 @@ function cleanRecord(raw) {
     issues.push(`Category '${rawCategory}' coerced to 'Culture'`);
   }
 
-  // Budget parsing & sanitation (e.g. "₹25,000", "25000 INR", "25000.50")
   let rawBudget = String(raw.budget_inr || raw.Budget || raw.budget || '0');
   let cleanedBudget = parseInt(rawBudget.replace(/[^0-9]/g, ''), 10) || 15000;
 
-  // Short description
   const description = (raw.short_description || raw.description || raw.Description || `${name} in ${state}`).trim();
 
-  // Slug generation
   const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
 
-  // Highlights parsing
   let highlights = [];
   if (raw.highlights) {
     if (typeof raw.highlights === 'string') {
@@ -139,7 +131,6 @@ export async function importDestinationsCSV(req, res) {
             );
           }
 
-          // Record dataset audit
           await query(
             `INSERT INTO imported_datasets (filename, dataset_type, total_rows, imported_rows, rejected_rows, cleaning_summary)
              VALUES ($1, $2, $3, $4, $5, $6)`,
@@ -203,7 +194,6 @@ export async function exportTripsReportCSV(req, res) {
       expenses = inMemoryStore.expenses;
     }
 
-    // Build CSV content
     const headers = ['Trip ID', 'Trip Title', 'Destination', 'Status', 'Planned Budget', 'Expense Title', 'Expense Category', 'Expense Amount', 'Expense Date', 'Payment Method'];
     const rows = [headers.join(',')];
 

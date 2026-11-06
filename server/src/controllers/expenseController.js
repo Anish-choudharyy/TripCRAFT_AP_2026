@@ -173,7 +173,6 @@ export async function getTripExpenseAnalytics(req, res) {
     const remainingBudget = totalBudget - totalExpenses;
     const percentSpent = totalBudget > 0 ? Number(((totalExpenses / totalBudget) * 100).toFixed(1)) : 0;
 
-    // Breakdown by Category
     const categoryMap = {};
     const defaultCategories = ['Transport', 'Accommodation', 'Food', 'Activities', 'Miscellaneous'];
     defaultCategories.forEach((cat) => {
@@ -191,7 +190,6 @@ export async function getTripExpenseAnalytics(req, res) {
       percentage: totalExpenses > 0 ? Number(((value / totalExpenses) * 100).toFixed(1)) : 0,
     }));
 
-    // Daily Spending Trend
     const dailyMap = {};
     expenses.forEach((e) => {
       const d = typeof e.date === 'string' ? e.date.split('T')[0] : new Date(e.date).toISOString().split('T')[0];
@@ -203,7 +201,6 @@ export async function getTripExpenseAnalytics(req, res) {
       amount,
     }));
 
-    // Payment Method Breakdown
     const methodMap = {};
     expenses.forEach((e) => {
       const m = e.payment_method || 'Other';

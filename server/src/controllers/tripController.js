@@ -23,7 +23,6 @@ export async function getAllTrips(req, res) {
       return res.json({ success: true, count: result.rows.length, data: result.rows });
     }
 
-    // In-Memory calculation
     const tripsWithStats = inMemoryStore.trips.map((trip) => {
       const tripItins = inMemoryStore.itinerary_items.filter((i) => i.trip_id === trip.id);
       const tripExps = inMemoryStore.expenses.filter((e) => e.trip_id === trip.id);
@@ -70,8 +69,6 @@ export async function getTripById(req, res) {
       const budget = Number(trip.budget);
       const remainingBudget = budget - totalExpenses;
       const percentSpent = budget > 0 ? Number(((totalExpenses / budget) * 100).toFixed(1)) : 0;
-
-      // Category breakdown
       const categoryTotals = {};
       expRes.rows.forEach((e) => {
         categoryTotals[e.category] = (categoryTotals[e.category] || 0) + Number(e.amount);
