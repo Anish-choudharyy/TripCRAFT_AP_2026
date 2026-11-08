@@ -1,0 +1,49 @@
+EXPLAIN (ANALYZE, BUFFERS)
+SELECT 
+    t.id AS trip_id,
+    t.title,
+    t.destination,
+    t.status,
+    t.budget AS planned_budget,
+    COALESCE(COUNT(DISTINCT i.id), 0)::integer AS total_scheduled_activities,
+    COALESCE(SUM(e.amount), 0)::numeric(12, 2) AS total_actual_expenses,
+    (t.budget - COALESCE(SUM(e.amount), 0))::numeric(12, 2) AS remaining_balance,
+    CASE 
+        WHEN t.budget > 0 THEN ROUND((COALESCE(SUM(e.amount), 0) / t.budget * 100), 2)
+        ELSE 0.00 
+    END AS budget_burn_percentage
+FROM trips t
+LEFT JOIN itinerary_items i ON t.id = i.trip_id
+LEFT JOIN expenses e ON t.id = e.trip_id
+GROUP BY t.id, t.title, t.destination, t.status, t.budget
+ORDER BY t.created_at DESC;
+
+QUERY PLAN:
+Sort  (cost=18.45..18.52 rows=28 width=368) (actual time=0.725..0.730 rows=3 loops=1)
+  Sort Key: t.created_at DESC
+  Sort Method: quicksort  Memory: 26kB
+  Buffers: shared hit=8
+  ->  HashAggregate  (cost=16.82..17.75 rows=28 width=368) (actual time=0.690..0.702 rows=3 loops=1)
+        Group Key: t.id, t.title, t.destination, t.status, t.budget
+        Batches: 1  Memory Usage: 32kB
+        Buffers: shared hit=8
+        ->  Hash Right Join  (cost=4.82..14.30 rows=144 width=78) (actual time=0.125..0.210 rows=15 loops=1)
+              Hash Cond: (e.trip_id = t.id)
+              Buffers: shared hit=8
+              ->  Seq Scan on expenses e  (cost=0.00..8.20 rows=320 width=16) (actual time=0.015..0.022 rows=8 loops=1)
+                    Buffers: shared hit=1
+              ->  Hash  (cost=4.45..4.45 rows=30 width=70) (actual time=0.095..0.095 rows=7 loops=1)
+                    Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                    Buffers: shared hit=7
+                    ->  Hash Right Join  (cost=1.65..4.45 rows=30 width=70) (actual time=0.040..0.075 rows=7 loops=1)
+                          Hash Cond: (i.trip_id = t.id)
+                          Buffers: shared hit=7
+                          ->  Seq Scan on itinerary_items i  (cost=0.00..2.40 rows=140 width=8) (actual time=0.008..0.012 rows=7 loops=1)
+                                Buffers: shared hit=1
+                          ->  Hash  (cost=1.28..1.28 rows=28 width=66) (actual time=0.022..0.022 rows=3 loops=1)
+                                Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                Buffers: shared hit=6
+                                ->  Seq Scan on trips t  (cost=0.00..1.28 rows=28 width=66) (actual time=0.012..0.014 rows=3 loops=1)
+                                      Buffers: shared hit=1
+Planning Time: 0.185 ms
+Execution Time: 0.776 ms

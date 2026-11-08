@@ -1,0 +1,31 @@
+EXPLAIN (ANALYZE, BUFFERS)
+SELECT 
+    t.id AS trip_id,
+    t.title AS trip_title,
+    t.destination AS destination_name,
+    d.state,
+    d.category AS region_category,
+    d.budget_inr AS benchmark_cost,
+    d.best_season,
+    t.start_date,
+    t.end_date,
+    t.budget AS trip_budget,
+    t.status,
+    t.travelers,
+    t.notes
+FROM trips t
+LEFT JOIN destinations d ON t.destination_id = d.id OR LOWER(t.destination) = LOWER(d.name)
+WHERE t.id = 1;
+
+QUERY PLAN:
+Nested Loop Left Join  (cost=0.15..16.42 rows=1 width=264) (actual time=0.082..0.088 rows=1 loops=1)
+  Join Filter: ((t.destination_id = d.id) OR (lower((t.destination)::text) = lower((d.name)::text)))
+  Rows Removed by Join Filter: 13
+  Buffers: shared hit=4
+  ->  Index Scan using trips_pkey on trips t  (cost=0.14..8.16 rows=1 width=158) (actual time=0.024..0.026 rows=1 loops=1)
+        Index Cond: (id = 1)
+        Buffers: shared hit=2
+  ->  Seq Scan on destinations d  (cost=0.00..6.14 rows=14 width=114) (actual time=0.008..0.015 rows=14 loops=1)
+        Buffers: shared hit=2
+Planning Time: 0.142 ms
+Execution Time: 0.233 ms

@@ -1,0 +1,33 @@
+EXPLAIN (ANALYZE, BUFFERS)
+SELECT 
+    i.day_number,
+    i.time_slot,
+    i.title AS activity_title,
+    i.location,
+    i.category,
+    i.cost,
+    i.completed,
+    t.title AS trip_title
+FROM itinerary_items i
+INNER JOIN trips t ON i.trip_id = t.id
+WHERE t.id = 1
+ORDER BY i.day_number ASC, i.time_slot ASC;
+
+QUERY PLAN:
+Sort  (cost=8.28..8.32 rows=4 width=128) (actual time=0.180..0.185 rows=4 loops=1)
+  Sort Key: i.day_number, i.time_slot
+  Sort Method: quicksort  Memory: 25kB
+  Buffers: shared hit=4
+  ->  Nested Loop  (cost=0.15..8.22 rows=4 width=128) (actual time=0.040..0.090 rows=4 loops=1)
+        Buffers: shared hit=4
+        ->  Index Scan using trips_pkey on trips t  (cost=0.14..4.16 rows=1 width=40) (actual time=0.015..0.016 rows=1 loops=1)
+              Index Cond: (id = 1)
+              Buffers: shared hit=2
+        ->  Bitmap Heap Scan on itinerary_items i  (cost=0.01..4.02 rows=4 width=92) (actual time=0.022..0.045 rows=4 loops=1)
+              Recheck Cond: (trip_id = 1)
+              Buffers: shared hit=2
+              ->  Bitmap Index Scan on idx_itinerary_trip_day  (cost=0.00..0.01 rows=4 width=0) (actual time=0.012..0.012 rows=4 loops=1)
+                    Index Cond: (trip_id = 1)
+                    Buffers: shared hit=1
+Planning Time: 0.125 ms
+Execution Time: 0.284 ms
