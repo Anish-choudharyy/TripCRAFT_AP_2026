@@ -124,3 +124,12 @@ The full SQL DDL script is located at `server/src/db/schema.sql`.
 ## 🎯 College Evaluation Context
 
 **Built as a group college project for Advance Programming (AP) and Data Engineering (DE) 2026.**
+
+### 👥 Team T0063 Roster
+
+| Role | Name | Enrollment No. | Section | GitHub Username |
+|------|------|----------------|---------|-----------------|
+| Group Lead | Harsh Raja | 2501010177 | C | [Harsh-07-Raja](https://github.com/Harsh-07-Raja) |
+| Member 2 | Anish Choudhary | 2501010569 | B | [Anish-choudharyy](https://github.com/Anish-choudharyy) |
+| Member 3 | Aksh Rathi | 2501010044 | B | [aksh2801](https://github.com/aksh2801) |
+| Member 4 | Sikunj Yadav | 2501010570 | E | [CodewithSikunj](https://github.com/CodewithSikunj) |
