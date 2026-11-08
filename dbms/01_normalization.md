@@ -2,7 +2,11 @@
 **Course:** Advanced Programming (AP) & Data Engineering (DE) — 2026  
 **Project:** TripCraft — Travel Itinerary Planner & Expense Analytics  
 **Team ID:** T0063 (Team 65)  
-**Lead:** Harsh Raja | **Members:** Anish Choudhary, Aksh Rathi, Sikunj Yadav  
+**Team Members:**
+- **Lead:** Harsh Raja (`Harsh-07-Raja`, 2501010177, Sec C)
+- **Member 2:** Anish Choudhary (`Anish-choudharyy`, 2501010569, Sec B)
+- **Member 3:** Aksh Rathi (`aksh2801`, 2501010044, Sec B)
+- **Member 4:** Sikunj Yadav (`CodewithSikunj`, 2501010570, Sec E)  
 
 ---
 
