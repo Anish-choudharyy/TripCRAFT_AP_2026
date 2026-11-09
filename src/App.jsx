@@ -30,6 +30,8 @@ export default function App() {
         setCurrentView('analytics');
       } else if (hash === '#data-hub' || hash === '#data') {
         setCurrentView('data-hub');
+      } else if (hash === '#plan' || hash === '#planner') {
+        setIsPlanModalOpen(true);
       } else if (hash === '' || hash === '#hero' || hash === '#home') {
         setCurrentView('home');
       }
@@ -57,6 +59,9 @@ export default function App() {
 
   const handleClosePlanModal = () => {
     setIsPlanModalOpen(false);
+    if (window.location.hash === '#plan' || window.location.hash === '#planner') {
+      window.location.hash = currentView === 'explore' ? 'explore' : '';
+    }
   };
 
   const handleSelectTrip = (id) => {
@@ -130,6 +135,7 @@ export default function App() {
         onClose={handleClosePlanModal}
         initialDestination={selectedDestinationForModal}
         onTripCreated={handleTripCreated}
+        onNavigate={handleNavigate}
       />
 
       {/* Footer */}
